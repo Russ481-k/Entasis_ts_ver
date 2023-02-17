@@ -1,8 +1,12 @@
-const Nav =() => {
+
+type Price = {
+    rtd: number,
+};
+const Nav =(props:Price) => {
 
     return(
     <div className="nav">
-        <h1>Nav</h1>
+        <h1>{props.rtd}</h1>
     </div>
     )
 }
