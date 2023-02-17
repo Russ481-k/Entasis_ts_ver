@@ -1,5 +1,7 @@
-import './App.css';
-import Footer from './Components/Footer';
+// SCSS
+import './App.scss';
+
+// components
 import Header from './Components/Header';
 import Nav from './Components/Nav';
 import MainPage from './Pages/MainPage';
