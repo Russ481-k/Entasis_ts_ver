@@ -1,12 +1,12 @@
 
 type Price = {
-    rtd: number,
+    currentPrice: number,
 };
-const Nav =(props:Price) => {
+const Nav =(currentPrice:Price) => {
 
     return(
     <div className="nav">
-        <h1>{props.rtd}</h1>
+        <h1>{currentPrice.currentPrice}</h1>
     </div>
     )
 }
