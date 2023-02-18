@@ -12,12 +12,16 @@ import TxPage from './Pages/TxPage';
 import { useEffect, useRef, useState } from 'react';
 
 type Price = {
-  rtd: number,
+  currentPrice: number,
 };
+type RtdArr = {
+  rtd:Array<Array<number|string>>
+}
 
 function App() {
-  const [rtd,setRtd] =useState<number>(1.2)
+  const [currentPrice, setCurrentPrice] = useState(1.2)
   const currentPrice_ref = useRef<number>(0)
+  const currentVolume_ref = useRef<number>(0)
 
 
 
@@ -25,30 +29,47 @@ function App() {
   const [stv, setStv] = useState<number>(0)
   // 중기 변동성 income_ratio 
   const [mtv, setMtv] = useState<number>(0)
+  const [rtd,setRtd] = useState<Array<Array<number>>>([[1.2],[0]])
+  const [addRtd,setAddRtd] = useState<Array<Array<number|string>>>([])
+
 
   //1초마다 난수 값 가중 후 배열에 넣음
   useEffect(()=>{
+    if(new Date().getSeconds().toString()==='0'){
+      setMtv((Math.random()*((0.001+(-0.001))+0.001)))
+    }
     const stvData = setInterval(()=>{
-      currentPrice_ref.current = rtd * (1+stv) * (1+mtv)
-      setRtd(currentPrice_ref.current)
+      setStv((Math.random()*((0.005+(-0.005))+0.005)))
+      currentPrice_ref.current = rtd[0][rtd[0].length-1] * (1+stv) * (1+mtv)
+      currentVolume_ref.current = 10 * (1+stv) * (1+mtv)
+      setCurrentPrice(currentPrice_ref.current)
+      setRtd([[...rtd[0],currentPrice_ref.current],[rtd[1][0]+currentVolume_ref.current]])
       clearInterval(stvData)
-    },1000)
-    setStv((Math.random()*((0.05+(-0.05))-0.05)))
-    
-    setInterval(()=>{
-      setMtv((Math.random()*((0.01+(-0.01))-0.01)))
-    },100000)
-  },[new Date().getSeconds()])
-  console.log(new Date().getSeconds(),rtd)
+    },500)
+    const rtdData = setInterval(()=>{
+      if(new Date().getSeconds()%60===0){
+        setAddRtd([...addRtd,[
+          String(new Date()).slice(0,-35),
+          rtd[0][0], //open
+          rtd[0][rtd[0].length-1], //close
+          Math.max(...rtd[0]), //high
+          Math.min(...rtd[0]), //low
+          rtd[1][0] //volume
+        ]])
+        setRtd([[rtd[0][rtd[0].length-1]],[0]])
+      }
+      clearInterval(rtdData)
+    },500)
 
-  //10초마다 배열을 
+  },[new Date().getMilliseconds()*500])
+
   return (
     <div className="App">
       <BrowserRouter>
         <Header/>
-        <Nav rtd = {rtd}/>
+        <Nav currentPrice = {currentPrice}/>
         <Routes>
-          <Route path='/' element={<MainPage/>}/>
+          <Route path='/' element={<MainPage rtd={rtd} addRtd={addRtd}/>}/>
           <Route path='/market' element={<MarketPage/>}/>
           <Route path='/mint' element={<MintPage/>}/>
           <Route path='/tx' element={<TxPage/>}/>
