@@ -14,8 +14,8 @@ const LogInPage: React.FC =() => {
     })
 
     useEffect(()=>{
-        // console.log(userData.id)
-        // console.log(userData.password)
+        console.log(userData.id)
+        console.log(userData.password)
 
     },[userData])
 
@@ -31,6 +31,7 @@ const LogInPage: React.FC =() => {
     const handleSubmit=(e:any)=>{
         e.preventDefault();
     }
+
     return(
     <div className="log_in_page">
         <Link to = "/"><img className="main_name" src={require('../images/ENTASIS.png')} alt='entasis' /></Link>
