@@ -3,7 +3,7 @@ name: Auto Deploy after push
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.15.x]
+        node-version: [16.17.0]
 
     steps:
       - uses: actions/checkout@v2
