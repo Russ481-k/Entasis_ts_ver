@@ -29,7 +29,7 @@ jobs:
         run: cd client && npm run build
 
       - name: Transfer to S3 for serving static
-        uses: Russ481-k/Entasis_ts_ver@main
+        uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
