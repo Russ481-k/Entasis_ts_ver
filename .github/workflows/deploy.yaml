@@ -6,12 +6,6 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-20.04
-    steps:
-
-
-jobs:
   deploy:
     name: Build, Deploy to S3 bucket
     runs-on: [ubuntu-latest]
