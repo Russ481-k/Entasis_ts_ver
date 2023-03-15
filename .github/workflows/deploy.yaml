@@ -6,6 +6,22 @@ on:
       - main
 
 jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Sync Bucket
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          SOURCE_DIR: "client"        run: |
+          aws s3 sync \
+            --region ap-northeast-2 \
+            build s3://wacatbucket \
+        working-directory: "client"
+
+jobs:
   deploy:
     name: Build, Deploy to S3 bucket
     runs-on: [ubuntu-latest]
