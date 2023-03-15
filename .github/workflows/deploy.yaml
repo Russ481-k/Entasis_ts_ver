@@ -1,52 +1,58 @@
-name: Auto Deploy after push
+# name: Auto Deploy after push
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  deploy:
-    name: Build, Deploy to S3 bucket
-    runs-on: [ubuntu-latest]
+# jobs:
+#   build:
+#     runs-on: ubuntu-20.04
+#     steps:
 
-    strategy:
-      matrix:
-        node-version: [16.17.0]
 
-    steps:
+# jobs:
+#   deploy:
+#     name: Build, Deploy to S3 bucket
+#     runs-on: [ubuntu-latest]
+
+#     strategy:
+#       matrix:
+#         node-version: [16.17.0]
+
+#     steps:
     
-      - uses: actions/checkout@v2
-      - name: Sync Bucket
-        env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          SOURCE_DIR: "client"        run: |
-          aws s3 sync \
-            --region ap-northeast-2 \
-            build s3://wacatbucket \
-        working-directory: "client"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
+#       - uses: actions/checkout@v2
+#       - name: Use Node.js ${{ matrix.node-version }}
+#         uses: actions/setup-node@v1
+#         with:
+#           node-version: ${{ matrix.node-version }}
 
-      - name: Npm install
-        run: cd client && npm install
+#       - name: Npm install
+#         run: cd client && npm install
 
-      - name: Build
-        run:  cd client && CI='false' npm run build
+#       - name: Build
+#         run:  cd client && CI='false' npm run build
 
-      - name: Transfer to S3 for serving static
-        uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --acl public-read --follow-symlinks --delete
-        env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          SOURCE_DIR: "client"
+#       - name: Transfer to S3 for serving static
+#         uses: jakejarvis/s3-sync-action@master
+#         with:
+#           args: --acl public-read --follow-symlinks --delete
+#         env:
+#           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+#           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           AWS_REGION: ${{ secrets.AWS_REGION }}
+#           SOURCE_DIR: "client"
 
+#       - name: Sync Bucket
+#         env:
+#           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+#           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           AWS_REGION: ${{ secrets.AWS_REGION }}
+#           SOURCE_DIR: "client"        run: |
+#           aws s3 sync \
+#             --region ap-northeast-2 \
+#             build s3://wacatbucket \
+#         working-directory: "client"
