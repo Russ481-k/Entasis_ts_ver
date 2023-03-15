@@ -8,7 +8,7 @@ const MarketPage =() => {
         <div className="marketpage_wrapper">
             <Sidebar></Sidebar>
             <div className="market">
-                <h1>MarketPage</h1>
+                <h1>MarketPage!!!</h1>
                 <div className="NFT_1"></div>
                 <div className="NFT_1"></div>
                 <div className="NFT_1"></div>
