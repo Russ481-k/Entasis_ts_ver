@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { dataToArray } from "../../Function/dataToArray";
 type RtdArr = {
     addRtd:Array<Array<number|string>>
@@ -12,6 +12,10 @@ type RtdArr = {
 
     const Candle: React.FC<RtdArr> =({rtdPrice,addRtd,date,open,close,high,low}) => {
         let width = Number(document.body.querySelector('.candle')?.clientWidth)
+        const [pointer,setPointer]=useState({x:0,y:0})
+
+
+
 
     const rtdArr = [
         String(new Date()).slice(0,-35),
@@ -43,11 +47,14 @@ type RtdArr = {
     const numYTicks = 7;
     const height = 600;
     const x0 = 10;
-    const y0 = 10;
+    const y0 = 0;
     const yAxisLength = height - 20;
     const xAxisLength = width - 80;
     const dataYRange = dataYMax - dataYMin;
     const barPlothWidth = xAxisLength / dataArr.length;
+
+    let SVG_CHART_WIDTH = typeof width === "number" ? width * 1 : 0;
+    let SVG_CHART_HEIGHT = typeof height === "number" ? height * 1 : 0;
 
     const xValue: string[] = [];
     const generateDate = () => {
@@ -58,11 +65,22 @@ type RtdArr = {
       // console.log(xValue);
         return xValue;
     };
+    const handleMouseMove=(e:any)=>{
+        setPointer({
+            x: e.clientX+10,
+            y: e.clientY-5
+        })
+    }
     generateDate();
-    
+    let windowPageYOffset = window.pageYOffset
+
     return(
     <div className="candle">
-        <svg width={'100%'}height={height}>
+        <svg 
+        width={'100%'}
+        height={height}
+        onMouseMove={handleMouseMove}
+        >
             
             {/*----기본 가로 선----*/}
             <line
@@ -91,7 +109,7 @@ type RtdArr = {
                         x2={x}
                         y1={yAxisLength}
                         y2={y0}
-                        stroke='#121212'
+                        stroke='#323232'
                     ></line>
                     <text
                         x={x}
@@ -118,7 +136,7 @@ type RtdArr = {
                         x2={x0}
                         y1={y}
                         y2={y}
-                        stroke='#121212'
+                        stroke='#323232'
                     ></line>
                     <text
                         x={width}
@@ -131,10 +149,39 @@ type RtdArr = {
                     </g>
                 );
             })}
-            {/*----캔들 구현----*/}
-            
+            {/* ----------포인터----------- */}
+            <line
+                
+                    x1={pointer.x<SVG_CHART_WIDTH-70 &&((pointer.y+windowPageYOffset)<715)?pointer.x-11:-10}
+                    x2={pointer.x<SVG_CHART_WIDTH-70 &&((pointer.y+windowPageYOffset)<715)?pointer.x-11:-10}
+                    y1={0}
+                    y2={SVG_CHART_HEIGHT-25}
+                    stroke='#00fbff'
+                    opacity={0.3}
+                    ></line>
 
-            {/*----시세 세로 선----*/}
+                    <line
+                    x1={0}
+                    x2={SVG_CHART_WIDTH-65}
+                    y1={pointer.x<SVG_CHART_WIDTH-70 &&((pointer.y+windowPageYOffset)<715)?((pointer.y+windowPageYOffset)-135):-10}
+                    
+                    y2={pointer.x<SVG_CHART_WIDTH-70 &&((pointer.y+windowPageYOffset)<715)?((pointer.y+windowPageYOffset)-135):-10}
+                    stroke='#00fbff'
+                    opacity={0.3}
+                    ></line>
+                    <text
+                
+                    x={SVG_CHART_WIDTH-60}
+                    y={pointer.x<SVG_CHART_WIDTH-70&&((pointer.y+windowPageYOffset)<715)?((pointer.y+windowPageYOffset)-135):-10}
+                    fill='#00aab3'
+                    stroke='#00aab3'
+                    opacity={0.5}
+                    fontSize='11px'
+                > 
+                {((Number(dataYMax)-Number(dataYMin))*(715-Number(pointer.y))/415+dataYMin).toFixed(2).toLocaleString()}ETH
+                </text>
+
+            {/*----캔들 구현----*/}
             {/*----시세 세로 선----*/}
             
         </svg>
