@@ -2,10 +2,11 @@ import Candle from "../Components/Chart/Candle";
 import Volume from "../Components/Chart/Volume";
 import { dataToArray } from "../Function/dataToArray";
 type RtdArr = {
+    currentPrice:number
     addRtd:Array<Array<number|string>>
     rtd:Array<Array<number>>
     }
-const ChartWrapper: React.FC<RtdArr> =({rtd,addRtd}) => {
+const ChartWrapper: React.FC<RtdArr> =({currentPrice,rtd,addRtd}) => {
     let date = dataToArray(addRtd,0)
     let open = dataToArray(addRtd,1)
     let close =dataToArray(addRtd,2)
@@ -16,7 +17,7 @@ const ChartWrapper: React.FC<RtdArr> =({rtd,addRtd}) => {
 
     return(
     <div className="chartwrapper">
-        <h1>ChartWrapper</h1>
+        <span>{currentPrice}</span>
         <Candle 
             rtdPrice={rtd[0]} 
             addRtd={addRtd}
