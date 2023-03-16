@@ -26,44 +26,46 @@ function App() {
   const currentPrice_ref = useRef<number>(0)
   const currentVolume_ref = useRef<number>(0)
 
-
-
   // 단기 변동성 stv
   const [stv, setStv] = useState<number>(0)
   // 중기 변동성 income_ratio 
   const [mtv, setMtv] = useState<number>(0)
-  const [rtd,setRtd] = useState<Array<Array<number>>>([[1.2],[0]])
-  const [addRtd,setAddRtd] = useState<Array<Array<number|string>>>([])
+  const [rtd,setRtd] = useState<Array<Array<number>>>([[1.22],[0]])
+  const [addRtd,setAddRtd] = useState<Array<Array<number|string>>>([
+    [1.2,1.232,1.19,1.22],[1231]
 
 
+  ])
   //1초마다 난수 값 가중 후 배열에 넣음
   useEffect(()=>{
-    if(new Date().getSeconds().toString()==='0'){
-      setMtv((Math.random()*((0.001+(-0.001))+0.001)))
-    }
+    let toggle = false;
     const stvData = setInterval(()=>{
-      setStv((Math.random()*((0.005+(-0.005))+0.005)))
+      setStv((Math.random()*(0.005-(-0.005001))-0.005))
       currentPrice_ref.current = rtd[0][rtd[0].length-1] * (1+stv) * (1+mtv)
       currentVolume_ref.current = 10 * (1+stv) * (1+mtv)
       setCurrentPrice(currentPrice_ref.current)
       setRtd([[...rtd[0],currentPrice_ref.current],[rtd[1][0]+currentVolume_ref.current]])
-      clearInterval(stvData)
-    },500)
-    const rtdData = setInterval(()=>{
-      if(new Date().getSeconds()%60===0){
-        setAddRtd([...addRtd,[
-          String(new Date()).slice(0,-35),
-          rtd[0][0], //open
-          rtd[0][rtd[0].length-1], //close
-          Math.max(...rtd[0]), //high
-          Math.min(...rtd[0]), //low
-          rtd[1][0] //volume
-        ]])
-        setRtd([[rtd[0][rtd[0].length-1]],[0]])
-      }
-      clearInterval(rtdData)
-    },500)
 
+      const mtvData = setInterval(()=>{
+        if(new Date().getSeconds()%60===0&&toggle===false){
+          toggle = true
+          setMtv((Math.random()*(0.001-(-0.001001))-0.001))
+          setAddRtd([...addRtd,[
+            String(new Date()).slice(0,-35),
+            rtd[0][0], //open
+            Math.max(...rtd[0]), //high
+            Math.min(...rtd[0]), //low
+            rtd[0][rtd[0].length-1], //close
+            rtd[1][0] //volume
+          ]])
+          setRtd([[rtd[0][rtd[0].length-1]],[0]])
+          console.log(rtd,rtd[0][rtd[0].length-1])
+          clearInterval(mtvData)
+        }}
+        ,1000)
+        clearInterval(stvData)
+      },500)
+      
   },[new Date().getMilliseconds()*500])
 
   return (
