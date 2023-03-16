@@ -4,7 +4,9 @@ type Price = {
     currentPrice: number,
 };
 const Nav =(currentPrice:Price) => {
-    const count = new Date().getSeconds();
+    const countSec:number = 59 - new Date().getSeconds();
+    const countMin:number = 4 - new Date().getMinutes() % 5;
+
     return(
     <div className="nav">
         <div className="nav_right">
@@ -15,7 +17,7 @@ const Nav =(currentPrice:Price) => {
                 <h3>Mint</h3>
             </Link>
         </div>
-        <h1>{count}</h1>
+        <h3>{`${'0'+countMin} : ${countSec<10?'0'+countSec.toString():countSec}`}</h3>
         <div className="nav_left">
             <Link to={'/rank'}>
                 <h3>Rank</h3>
