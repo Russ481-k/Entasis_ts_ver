@@ -14,13 +14,11 @@ const Volume:React.FC<RtdArr> =({rtd,addRtd,vol}) => {
     const y0 = 0;
     const yAxisLength = height - 20;
     const xAxisLength = width - 80;
-    const handleMouseMove=(e:any)=>{
-        setPointer({
+    const handleMouseMove=(e:{clientX:number;clientY:number}) =>{        setPointer({
             x: e.clientX+10,
             y: e.clientY-10
         })
     }
-
     const dataArray=[]
     // for (let i = 0; i < volTo.length; i++) {
     //     dataArray.push([
@@ -47,7 +45,7 @@ const Volume:React.FC<RtdArr> =({rtd,addRtd,vol}) => {
     let SVG_VOLUME_HEIGHT = typeof height === "number" ? height * 1 : 0;
 
     let windowPageYOffset = window.pageYOffset
-    console.log(pointer)
+    // console.log(pointer)
 
     return(
     <div className="volume">
@@ -76,7 +74,7 @@ const Volume:React.FC<RtdArr> =({rtd,addRtd,vol}) => {
 
             {/*----시세 세로 선----*/}
             {Array.from({ length: numYTicks }).map((_, index) => {
-            const y = y0 + index * (yAxisLength / numYTicks) -10;
+            const y = y0 + index * (yAxisLength / numYTicks);
                 return (
                     <g key={index}>
                     <line
