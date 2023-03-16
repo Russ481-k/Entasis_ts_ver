@@ -9,11 +9,10 @@ type RtdArr = {
 const ChartWrapper: React.FC<RtdArr> =({currentPrice,rtd,addRtd}) => {
     let date = dataToArray(addRtd,0)
     let open = dataToArray(addRtd,1)
-    let close =dataToArray(addRtd,2)
-    let high =dataToArray(addRtd,3)
-    let low =dataToArray(addRtd,4)
+    let high =dataToArray(addRtd,2)
+    let low =dataToArray(addRtd,3)
+    let close =dataToArray(addRtd,4)
     let vol =dataToArray(addRtd,5)
-
 
     return(
     <div className="chartwrapper">
@@ -26,7 +25,7 @@ const ChartWrapper: React.FC<RtdArr> =({currentPrice,rtd,addRtd}) => {
             close={close}
             high={high}
             low={low}
-            
+            currentPrice={currentPrice}
 
             />
         <Volume rtd={rtd} addRtd={addRtd} vol={vol}/>
