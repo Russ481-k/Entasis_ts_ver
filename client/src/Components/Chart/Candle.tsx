@@ -46,7 +46,7 @@ type RtdArr = {
     const numXTicks = width > 782 ? 12 : 6 ;
     const numYTicks = 7;
     const height = 600;
-    const x0 = 10;
+    const x0 = 0;
     const y0 = 0;
     const yAxisLength = height - 20;
     const xAxisLength = width - 80;
@@ -65,7 +65,7 @@ type RtdArr = {
       // console.log(xValue);
         return xValue;
     };
-    const handleMouseMove=(e:any)=>{
+    const handleMouseMove=(e:{clientX:number;clientY:number})=>{
         setPointer({
             x: e.clientX+10,
             y: e.clientY-5
@@ -99,32 +99,8 @@ type RtdArr = {
                 stroke="#005469"
             />
             {/*----시세 가로 선----*/}
-            {Array.from({ length: numXTicks }).map((_, index) => {
-            const x = x0 + index * (xAxisLength / numXTicks) + 10;
-                return (
-                    <g key={index}>
-                    <line
-                        className="lineLight"
-                        x1={x}
-                        x2={x}
-                        y1={yAxisLength}
-                        y2={y0}
-                        stroke='#323232'
-                    ></line>
-                    <text
-                        x={x}
-                        y={height}
-                        textAnchor="middle"
-                        fontSize={Number(document.body.querySelector('.volume')?.clientWidth) < 800 ? 6 : 10}
-                    >
-                        {xValue[index]}
-                    </text>
-                    </g>
-                );
-            })}
-            {/*----시세 세로 선----*/}
             {Array.from({ length: numYTicks }).map((_, index) => {
-          const y = y0 + index * (yAxisLength / numYTicks)-10;
+          const y = y0 + index * (yAxisLength / numYTicks);
             const yValue = Math.round(
             dataYMax - index * (dataYRange / numYTicks)
             );
@@ -139,23 +115,51 @@ type RtdArr = {
                         stroke='#323232'
                     ></line>
                     <text
-                        x={width}
-                        y={y}
+                        x={width-55}
+                        y={y+5}
                         textAnchor="middle"
                         fontSize={Number(document.body.querySelector('.volume')?.clientWidth) < 800 ? 6 : 10}
+                        stroke='#323232'
                     >
                         {yValue.toLocaleString()}
                     </text>
                     </g>
                 );
             })}
+
+            {/*----시세 세로 선----*/}
+            {Array.from({ length: numXTicks }).map((_, index) => {
+            const x = x0 + index * (xAxisLength / numXTicks) 
+                return (
+                    <g key={index}>
+                    <line
+                        className="lineLight"
+                        x1={x}
+                        x2={x}
+                        y1={yAxisLength}
+                        y2={y0}
+                        stroke='#323232'
+                    ></line>
+                    <text
+                        x={x}
+                        y={height-5}
+                        textAnchor="middle"
+                        fontSize={Number(document.body.querySelector('.volume')?.clientWidth) < 800 ? 6 : 10}
+                        stroke='#323232'
+                    >
+                        {xValue[index]}
+                    </text>
+                    </g>
+                );
+            })}
+ 
             {/* ----------포인터----------- */}
             <line
                 
                     x1={pointer.x<SVG_CHART_WIDTH-70 &&((pointer.y+windowPageYOffset)<715)?pointer.x-11:-10}
                     x2={pointer.x<SVG_CHART_WIDTH-70 &&((pointer.y+windowPageYOffset)<715)?pointer.x-11:-10}
                     y1={0}
-                    y2={SVG_CHART_HEIGHT-25}
+                    y2={SVG_CHART_HEIGHT-20}
                     stroke='#00fbff'
                     opacity={0.3}
                     ></line>
