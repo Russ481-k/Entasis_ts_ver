@@ -90,6 +90,7 @@ const Volume:React.FC<RtdArr> =({rtd,addRtd,vol}) => {
                         y={y}
                         textAnchor="middle"
                         fontSize={Number(document.body.querySelector('.volume')?.clientWidth) < 800 ? 6 : 10}
+                        stroke='#323232'
                     >
                         {/* {xValue[index]} */}
                     </text>
@@ -108,8 +109,8 @@ const Volume:React.FC<RtdArr> =({rtd,addRtd,vol}) => {
                 <line
                 x1={0}
                 x2={SVG_VOLUME_WIDTH-70}
-                y1={pointer.x+10<SVG_VOLUME_WIDTH-60&&((pointer.y+windowPageYOffset)<875)?((pointer.y+windowPageYOffset)-735):-20}
-                y2={pointer.x+10<SVG_VOLUME_WIDTH-60&&((pointer.y+windowPageYOffset)<875)?((pointer.y+windowPageYOffset)-735):-20}
+                y1={pointer.x+10<SVG_VOLUME_WIDTH-60&&((pointer.y+windowPageYOffset)<875)?((pointer.y+windowPageYOffset)-715):-20}
+                y2={pointer.x+10<SVG_VOLUME_WIDTH-60&&((pointer.y+windowPageYOffset)<875)?((pointer.y+windowPageYOffset)-715):-20}
                 stroke='#00fbff'
                 opacity={0.3}
                 ></line>
@@ -117,7 +118,7 @@ const Volume:React.FC<RtdArr> =({rtd,addRtd,vol}) => {
                 x={SVG_VOLUME_WIDTH-60}
                 y={pointer.x+10<SVG_VOLUME_WIDTH-60&&
                 ((pointer.y+windowPageYOffset)<875)?
-                ((pointer.y+windowPageYOffset)-735):-20}
+                ((pointer.y+windowPageYOffset)-715):-20}
                 fill='#00fbff'
                 stroke='#00fbff'
                 opacity={0.5}
