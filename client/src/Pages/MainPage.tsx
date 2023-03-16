@@ -11,16 +11,17 @@ import ChartWrapper from "../Wrapper/ChartWrapper";
 import HistoryWrapper from "../Wrapper/HistoryWrapper";
 
 type RtdArr = {
+    currentPrice:number
     addRtd:Array<Array<number|string>>
     rtd:Array<Array<number>>
     }
 
-const MainPage:React.FC<RtdArr> =({rtd,addRtd}) => {
+const MainPage:React.FC<RtdArr> =({currentPrice,rtd,addRtd}) => {
 
     return(
     <div className="mainpage">
         <div className='main_top'>
-            <ChartWrapper rtd={rtd} addRtd={addRtd}/>
+            <ChartWrapper currentPrice={currentPrice}rtd={rtd} addRtd={addRtd}/>
             <div className='main_top_order'>
                 <Limit/>
                 <Order/>
