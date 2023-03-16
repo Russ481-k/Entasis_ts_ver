@@ -72,7 +72,7 @@ function App() {
         <Header/>
         <Nav currentPrice = {currentPrice}/>
         <Routes>
-          <Route path='/' element={<MainPage rtd={rtd} addRtd={addRtd}/>}/>
+          <Route path='/' element={<MainPage currentPrice = {currentPrice} rtd={rtd} addRtd={addRtd}/>}/>
           <Route path='/market' element={<MarketPage/>}/>
           <Route path='/mint' element={<MintPage/>}/>
           <Route path='/rank' element={<RankPage/>}/>
