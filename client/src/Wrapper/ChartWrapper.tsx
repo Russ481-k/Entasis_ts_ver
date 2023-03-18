@@ -28,7 +28,13 @@ const ChartWrapper: React.FC<RtdArr> =({currentPrice,rtd,addRtd}) => {
             currentPrice={currentPrice}
 
             />
-        <Volume rtd={rtd} addRtd={addRtd} vol={vol}/>
+        <Volume 
+        rtd={rtd} 
+        addRtd={addRtd} 
+        open={open}
+        close={close}
+        vol={vol}
+        />
     </div>
     )
 }
