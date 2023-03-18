@@ -33,7 +33,7 @@ type RtdArr = {
             close[i],
         ])
     }
-
+    dataArr[dataArr.length] = rtdArr
     const dataYMax = dataArr.reduce(
         (max, [_, open, high, low, close]) => Math.max(max, high),
         -Infinity
@@ -50,7 +50,7 @@ type RtdArr = {
     const numXTicks:number = SVG_CHART_WIDTH > 782 ? 12 : 6 ;
     const numYTicks:number = 7;
     const x0 = 0;
-    const y0 = 0;
+    const y0 = 10;
     const yAxisLength:number = height - 20;
     const xAxisLength:number = SVG_CHART_WIDTH - 80;
     const dataYRange:number = dataYMax - dataYMin;
@@ -181,7 +181,6 @@ type RtdArr = {
             </text>
 
             {/*----캔들 구현----*/}
-                {/* 캔들 구현 */}
                 {dataArr.map(
                 (
                     [
@@ -208,8 +207,8 @@ type RtdArr = {
                     
                         x1={x + (barPlothWidth - sidePadding) / 2}
                         x2={x + (barPlothWidth - sidePadding) / 2}
-                        y1={!isNaN(scaleY(low))? Number(yAxisLength) - scaleY(low) : 0}
-                        y2={!isNaN(scaleY(high)) ? Number(yAxisLength) - scaleY(high) : 0}
+                        y1={!isNaN(scaleY(low))? Number(yAxisLength) - scaleY(low)+10 : 0}
+                        y2={!isNaN(scaleY(high)) ? Number(yAxisLength) - scaleY(high)+10 : 0}
                         stroke={fill}
                         />
 
@@ -217,7 +216,7 @@ type RtdArr = {
                         id={`ID_`+`${dataArr.length-index-1}`}
                         {...{ fill }}
                         x={x}
-                        y={!isNaN(scaleY(max)) ?yAxisLength - scaleY(max):0}
+                        y={!isNaN(scaleY(max)) ?yAxisLength - scaleY(max)+10:0}
                         width={(barPlothWidth - sidePadding)>0?barPlothWidth - sidePadding:0.001}
                         // 시가 종가 최대 최소값의 차
                         height={(scaleY(max) - scaleY(min))>1?scaleY(max) - scaleY(min):1}
@@ -226,15 +225,15 @@ type RtdArr = {
                         <line
                         x1={xAxisLength+10}
                         x2={x0}
-                        y1={(currentPrice!==undefined ? yAxisLength - scaleY(currentPrice) : 0)}
-                        y2={(currentPrice!==undefined ? yAxisLength - scaleY(currentPrice) : 0)}
+                        y1={(currentPrice!==undefined ? yAxisLength - scaleY(currentPrice)+10 : 0)}
+                        y2={(currentPrice!==undefined ? yAxisLength - scaleY(currentPrice)+10 : 0)}
                         strokeWidth='0.1'
                         stroke={fill}
                         >
                         </line>
                         <text
                         x={SVG_CHART_WIDTH - 60}
-                        y={(!isNaN(scaleY(currentPrice))?yAxisLength - Number(scaleY(currentPrice)):0)}
+                        y={(!isNaN(scaleY(currentPrice))?yAxisLength - Number(scaleY(currentPrice))+10:0)}
                         fontSize="12" 
                         fill={fill} 
                         >
@@ -243,9 +242,6 @@ type RtdArr = {
                     </g>
                     );
                 })
-                //.slice(10,100)
-                //offset 
-                //limit
                 }
 
             
